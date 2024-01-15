@@ -17,7 +17,7 @@ import { useRowOffset } from '../composables/useRowOffset';
 
     const props = defineProps({
         configuration : {
-            type: Array as () => (string | KeyOptions)[],
+            type: Array as () => KeyOptions[],
             required: true
         },
         index: {
@@ -28,19 +28,20 @@ import { useRowOffset } from '../composables/useRowOffset';
 
     const computedConfigurations = computed((): KeyOptions[] => {
         let x = 0;
-        let y = useRowOffset();
+        let y = useRowOffset(); 
         let w = 1;
-        let wi = 1;
         let h = 1;
         return props.configuration.map((key) => {
-            if (typeof key === 'string') {
-                let labels = key.split('\n');
-                let newKey = {x: x, y: y, w: w, wi: wi, h: h, labels: labels}
+            if (key.labels !== undefined) {
+                key.x = x;
+                key.y = y;
+                key.w = w;
+                key.h = h;
+
                 x = 0;
                 w = 1;
-                wi = 1;
                 h = 1;
-                return newKey;
+                return key;
             } else {
                 if (key.hasOwnProperty('x')) {
                     x = key.x as number;
@@ -48,23 +49,6 @@ import { useRowOffset } from '../composables/useRowOffset';
                     y = useRowOffset(key.y as number);
                 } if (key.hasOwnProperty('w')) {
                     w = key.w as number;
-                    
-                    if (key.w as number < 1.5) {
-                        wi = key.w as number + (key.w as number * 0.08);
-                    } else if (key.w as number < 2) {
-                        wi = key.w as number + (key.w as number * 0.1);
-                    } else if (key.w as number <= 2) {
-                        wi = 2.25;
-                    } else if (key.w as number <= 2.25) {
-                        wi = 2.55;
-                    } else if (key.w as number <= 2.75) {
-                        wi = 3.25;
-                    } else if (key.w as number <= 3) {
-                        wi = 3.75
-                    } else if (key.w as number > 2) {
-                        wi = key.w as number + (key.w as number * 0.24);
-                    }
-                    
                 } if (key.hasOwnProperty('h')) {
                     h = key.h as number;
                 }

@@ -1,11 +1,11 @@
 <template>
-  <div class="container">
+  <div id="configurator" class="container">
     <!-- <h1>Welcome to Tauri!</h1> -->
-
     <div class="relative left-5">
       {{ useRowOffset(-1) }}
       <KeyRow v-for="(row, index) in keyConfig" :configuration="row" :index="index" :key="index"></KeyRow>
-
+      <div class="h-80"></div>
+      <p>Selected Key: {{ useSelectedKey.get() }}</p>
     </div>
 
     <!-- <p>Click on the Tauri, Vite, and Vue logos to learn more.</p>
@@ -36,18 +36,13 @@
 import KeyRow from "./components/KeyRow.vue";
 import keyConfig from "./assets/keyboard-layout.json";
 import { useRowOffset } from "./composables/useRowOffset";
+import { useKeyDownEvent } from "./composables/useKeyDownEvent";
+import { useSelectedKey } from "./composables/useSelectedKey";
 
 
-
+useKeyDownEvent( (event: KeyboardEvent) => {
+  useSelectedKey.set(event.code); 
+  console.log(event); 
+})
 
 </script>
-
-<style scoped>
-.logo.vite:hover {
-  filter: drop-shadow(0 0 2em #747bff);
-}
-
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #249b73);
-}
-</style>

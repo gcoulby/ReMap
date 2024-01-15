@@ -5,4 +5,6 @@ export type KeyOptions = {
   wi?: number
   h?: number
   labels?: string[]
+  keycode?: number
+  code?: string
 }
