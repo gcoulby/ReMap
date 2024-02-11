@@ -1,6 +1,6 @@
 <template>
     <div id="keyrow" class="absolute flex flex-row justify-start" :style="{
-        marginTop: (props.index * 54) + 'px'
+        marginTop: (props.index * KEY_SIZE) + 'px'
     
     }">
         <template v-for="config in computedConfigurations">
@@ -14,6 +14,7 @@ import KeyCap from './KeyCap.vue';
 import { KeyOptions } from '../types';
 import { computed } from 'vue';
 import { useRowOffset } from '../composables/useRowOffset';
+import { KEY_SIZE } from '../composables/useDefaultDimensions';
 
     const props = defineProps({
         configuration : {

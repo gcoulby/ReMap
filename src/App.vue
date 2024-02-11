@@ -4,8 +4,8 @@
     <div class="relative left-5">
       {{ useRowOffset(-1) }}
       <KeyRow v-for="(row, index) in keyConfig" :configuration="row" :index="index" :key="index"></KeyRow>
-      <div class="h-80"></div>
-      <p>Selected Key: {{ useSelectedKey.get() }}</p>
+      <div class="h-96"></div>
+      <RemapForm />
     </div>
 
     <!-- <p>Click on the Tauri, Vite, and Vue logos to learn more.</p>
@@ -38,11 +38,20 @@ import keyConfig from "./assets/keyboard-layout.json";
 import { useRowOffset } from "./composables/useRowOffset";
 import { useKeyDownEvent } from "./composables/useKeyDownEvent";
 import { useSelectedKey } from "./composables/useSelectedKey";
+import { FONT_SIZE } from "./composables/useDefaultDimensions";
+import { onMounted } from "vue";
+import RemapForm from "./components/RemapForm.vue";
 
 
 useKeyDownEvent( (event: KeyboardEvent) => {
   useSelectedKey.set(event.code); 
-  console.log(event); 
+  event.preventDefault();
+  event.stopPropagation();
+})
+
+
+onMounted(() => {
+  document.getElementsByTagName('html')[0].style.fontSize = FONT_SIZE + 'pt';
 })
 
 </script>
